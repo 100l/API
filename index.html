@@ -143,7 +143,7 @@
         const data = await response.json();
         const usdRate = data.find(item => item.cc === 'USD')?.rate || 'Н/Д';
         const eurRate = data.find(item => item.cc === 'EUR')?.rate || 'Н/Д';
-        const updateTime = new Date().toLocaleString();
+        const updateTime = new Date().toLocaleString(); // Оновлюємо час при кожному виклику
 
         // Отримання реальних даних за місяць
         const monthData = await fetchMonthlyRates();
@@ -189,7 +189,12 @@
      */
     function updateChart(chartId, data, label, dates, currentRate) {
       const ctx = document.getElementById(chartId).getContext('2d');
-      new Chart(ctx, {
+      // Видаляємо попередній графік, якщо він існує
+      if (window.myCharts && window.myCharts[chartId]) {
+        window.myCharts[chartId].destroy();
+      }
+      window.myCharts = window.myCharts || {};
+      window.myCharts[chartId] = new Chart(ctx, {
         type: 'line',
         data: {
           labels: dates,
