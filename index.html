@@ -206,16 +206,20 @@
           scales: {
             y: { beginAtZero: false, title: { display: true, text: 'Курс (грн)' } },
             x: {
-              title: { display: true, text: 'Період' },
+              title: {
+                display: true,
+                text: 'Період',
+                padding: { top: 10 }
+              },
               ticks: {
-                maxRotation: 90, // Повернуто до вертикального відображення
+                maxRotation: 90,
                 minRotation: 90,
                 padding: 5,
                 font: {
-                  size: 12, // Базовий розмір
+                  size: 12
                 },
-                autoSkip: true, // Автоматично пропускати мітки
-                maxTicksLimit: 15 // Збільшено для кращого охоплення
+                autoSkip: true,
+                maxTicksLimit: 15
               }
             }
           },
@@ -244,10 +248,7 @@
             }
           },
           animation: { duration: 1000, easing: 'easeInOutQuad' }
-        },
-        // Додаткові налаштування для мобільних
-        responsive: true,
-        maintainAspectRatio: false
+        }
       });
     }
 
