@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Курс Гривні в Реальному Часі</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
     body {
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'Noto Serif', 'Times New Roman', Times, serif;
       font-size: 14px;
       margin: 0;
       padding: 20px;
@@ -34,7 +35,7 @@
       text-align: center;
     }
     button {
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'Noto Serif', 'Times New Roman', Times, serif;
       font-size: 14px;
       padding: 10px 20px;
       background: linear-gradient(45deg, #3498db, #8e44ad);
@@ -127,7 +128,7 @@
     </div>
   </div>
   <div class="footer">
-    ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА (БАКАЛАВРСЬКА РОБОТА) 2025<br>
+    ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА 2025<br>
     Тема: Інтеграція державних сервісів через API та хмарні технології
   </div>
 
@@ -207,9 +208,14 @@
             x: {
               title: { display: true, text: 'Період' },
               ticks: {
-                maxRotation: 90,
+                maxRotation: 90, // Повернуто до вертикального відображення
                 minRotation: 90,
-                padding: 5
+                padding: 5,
+                font: {
+                  size: 12, // Базовий розмір
+                },
+                autoSkip: true, // Автоматично пропускати мітки
+                maxTicksLimit: 15 // Збільшено для кращого охоплення
               }
             }
           },
@@ -238,7 +244,10 @@
             }
           },
           animation: { duration: 1000, easing: 'easeInOutQuad' }
-        }
+        },
+        // Додаткові налаштування для мобільних
+        responsive: true,
+        maintainAspectRatio: false
       });
     }
 
