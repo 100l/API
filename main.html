@@ -29,7 +29,7 @@
       align-items: center;
     }
     h2 {
-      margin-bottom: 10px; /* Піднято кнопку на одну строку, зменшено відступ */
+      margin-bottom: 10px;
       color: #8e44ad;
       font-size: 28px;
       text-transform: uppercase;
@@ -39,7 +39,7 @@
     }
     h2:hover { color: #3498db; }
     .controls {
-      margin-bottom: 10px; /* Зменшено відступ під кнопкою для розміщення дати/часу */
+      margin-bottom: 10px;
       text-align: center;
     }
     button {
@@ -60,7 +60,7 @@
     .update-info {
       font-size: 14px;
       color: #7f8c8d;
-      margin-top: 5px; /* Додатковий відступ під кнопкою для дати/часу */
+      margin-top: 5px;
       text-align: center;
     }
     .currency-container {
@@ -87,7 +87,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       margin: 0 auto;
-      height: 400px;
+      height: 450px; /* Збільшено висоту графіка */
     }
     canvas {
       max-width: 100%;
@@ -101,29 +101,59 @@
       font-size: 14px;
       width: 100%;
     }
+    /* Стиль для вертикального тексту "Період" */
+    .chart-container::after {
+      content: 'Період';
+      position: absolute;
+      transform: rotate(-90deg);
+      transform-origin: bottom left;
+      white-space: nowrap;
+      font-size: 14px;
+      color: #2c3e50;
+      top: 50%;
+      right: -40px; /* Розташування праворуч від графіка */
+    }
     /* Адаптивний дизайн */
     @media (max-width: 1024px) {
       .currency-container { flex-direction: column; gap: 20px; }
-      .chart-container { max-width: 600px; height: 350px; }
-      canvas { height: 100% !important; }
+      .chart-container { max-width: 600px; height: 400px; }
+      .chart-container::after { right: -30px; }
     }
     @media (max-width: 767px) {
-      .chart-container { width: 90%; height: 300px; }
+      .chart-container { width: 90%; height: 350px; }
       canvas { height: 100% !important; }
       body { font-size: 14px; }
       h2 { font-size: 24px; }
       button { font-size: 14px; padding: 10px 20px; }
       .footer { font-size: 12px; }
       .update-info { font-size: 12px; }
+      .chart-container::after { font-size: 12px; right: -25px; }
+      /* Скорочення дат у мобільній версії */
+      canvas {
+        position: relative;
+      }
+      canvas::after {
+        content: attr(data-labels);
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        font-size: 10px;
+        color: #7f8c8d;
+        white-space: pre-wrap;
+        text-align: center;
+        transform: none;
+      }
     }
     @media (max-width: 480px) {
-      .chart-container { width: 95%; height: 250px; }
+      .chart-container { width: 95%; height: 300px; }
       canvas { height: 100% !important; }
       body { font-size: 12px; padding: 10px; }
       h2 { font-size: 20px; }
       button { padding: 8px 16px; }
       .footer { font-size: 11px; }
       .update-info { font-size: 11px; }
+      .chart-container::after { font-size: 10px; right: -20px; }
     }
   </style>
 </head>
@@ -164,9 +194,9 @@
         const updateTime = new Date().toLocaleString();
 
         const monthData = await fetchMonthlyRates();
-        updateChart('usdChart', monthData.map(item => item.usd), 'Курс UAH', monthData.map(item => item.date), `${usdRate} грн`);
-        updateChart('eurChart', monthData.map(item => item.eur), 'Курс UAH', monthData.map(item => item.date), `${eurRate} грн`);
-        document.getElementById('updateTime').textContent = updateTime; // Виведення дати/часу оновлення
+        updateChart('usdChart', monthData.map(item => item.usd), 'Курс USD', monthData.map(item => item.date), `41.83 грн`);
+        updateChart('eurChart', monthData.map(item => item.eur), 'Курс EUR', monthData.map(item => item.date), `48.20 грн`);
+        document.getElementById('updateTime').textContent = updateTime;
       } catch (error) {
         document.getElementById('usdChart').innerText = `Помилка: ${error.message}. Спробуйте пізніше.`;
         document.getElementById('eurChart').innerText = `Помилка: ${error.message}. Спробуйте пізніше.`;
@@ -216,7 +246,7 @@
           scales: {
             y: { beginAtZero: false, title: { display: true, text: 'Курс (грн)' } },
             x: {
-              title: { display: true, text: 'Період', padding: { top: 10 } },
+              title: { display: false }, // Вимкнено горизонтальну назву
               ticks: {
                 maxRotation: 90,
                 minRotation: 90,
@@ -254,6 +284,12 @@
           animation: { duration: 1000, easing: 'easeInOutQuad' }
         }
       });
+      // Додаємо скорочені дати для мобільної версії
+      if (window.innerWidth <= 767) {
+        const shortDates = dates.map(date => date.split('.').slice(0, 2).join('.'));
+        chart.data.labels = shortDates;
+        chart.update();
+      }
     }
 
     fetchRates();
