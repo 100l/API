@@ -150,6 +150,13 @@
       margin-top: 2px;
     }
     
+    .total-visitors {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #3498db;
+      font-weight: bold;
+    }
+    
     .footer {
       margin-top: 10px;
       color: #7f8c8d;
@@ -214,16 +221,17 @@
     
     <div class="stats-container">
       <div class="stat-item">
-        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232ecc71'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/></svg>" class="stat-icon">
-        <div class="stat-value" id="human-count">0</div>
-        <div class="stat-label">Люди</div>
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233498db'><path d='M4 6h16v10H4zm2 2v6h12V8z'/><path d='M12 16h0' stroke='%233498db' stroke-width='2'/></svg>" class="stat-icon">
+        <div class="stat-value" id="desktop-count">0</div>
+        <div class="stat-label">Комп'ютери</div>
       </div>
       <div class="stat-item">
-        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e74c3c'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.95 15.36l-1.41 1.41L12 13.41l-3.54 3.54-1.41-1.41L10.59 12 7.05 8.46l1.41-1.41L12 10.59l3.54-3.54 1.41 1.41L13.41 12l3.54 3.54z'/></svg>" class="stat-icon">
-        <div class="stat-value" id="bot-count">0</div>
-        <div class="stat-label">Боти</div>
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238e44ad'><path d='M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H7V4h10v16z'/><path d='M12 17h0' stroke='%238e44ad' stroke-width='2'/></svg>" class="stat-icon">
+        <div class="stat-value" id="mobile-count">0</div>
+        <div class="stat-label">Телефони</div>
       </div>
     </div>
+    <div class="total-visitors">Всього відвідувачів: <span id="total-count">0</span></div>
     
     <div class="footer">
       © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
@@ -236,8 +244,42 @@
     let startTime = Date.now();
     let timerInterval;
     
-    // Статистика (зберігається в localStorage)
-    let stats = JSON.parse(localStorage.getItem('captchaStats')) || { humans: 0, bots: 0 };
+    // Визначаємо тип пристрою
+    function getDeviceType() {
+      return /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
+    }
+    
+    // Оновлюємо статистику
+    async function updateStats() {
+      try {
+        // Тут буде реальний запит до вашого бекенду
+        // Для прикладу використовуємо localStorage
+        const stats = JSON.parse(localStorage.getItem('deviceStats')) || { desktop: 0, mobile: 0 };
+        
+        document.getElementById('desktop-count').textContent = stats.desktop;
+        document.getElementById('mobile-count').textContent = stats.mobile;
+        document.getElementById('total-count').textContent = stats.desktop + stats.mobile;
+      } catch (e) {
+        console.error('Помилка оновлення статистики:', e);
+      }
+    }
+    
+    // Відправляємо дані про відвідувача
+    async function sendVisitData() {
+      const deviceType = getDeviceType();
+      try {
+        // Тут має бути реальний запит до вашого API
+        // Для прикладу зберігаємо в localStorage
+        const stats = JSON.parse(localStorage.getItem('deviceStats')) || { desktop: 0, mobile: 0 };
+        stats[deviceType]++;
+        localStorage.setItem('deviceStats', JSON.stringify(stats));
+        
+        // Оновлюємо відображення
+        updateStats();
+      } catch (e) {
+        console.error('Помилка відправки даних:', e);
+      }
+    }
     
     function updateTimer() {
       const elapsedTime = Date.now() - startTime;
@@ -257,34 +299,15 @@
       document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
     }
     
-    function updateStats() {
-      document.getElementById('human-count').textContent = stats.humans;
-      document.getElementById('bot-count').textContent = stats.bots;
-    }
-    
-    function saveStats() {
-      localStorage.setItem('captchaStats', JSON.stringify(stats));
-    }
-    
     function startTimer() {
       startTime = Date.now();
       timerInterval = setInterval(updateTimer, 1000);
       updateTimer();
-      updateStats();
     }
     
     function onSubmit(token) {
-      stats.humans++;
-      saveStats();
-      updateStats();
       clearInterval(timerInterval);
       window.location.href = 'main.html';
-    }
-    
-    function handleBotDetection() {
-      stats.bots++;
-      saveStats();
-      updateStats();
     }
     
     function renderCaptcha() {
@@ -292,8 +315,6 @@
         grecaptcha.render('captcha', {
           'sitekey': '6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV',
           'callback': onSubmit,
-          'expired-callback': handleBotDetection,
-          'error-callback': handleBotDetection,
           'theme': 'light',
           'size': 'normal'
         });
@@ -305,6 +326,8 @@
     document.addEventListener('DOMContentLoaded', function() {
       startTimer();
       renderCaptcha();
+      sendVisitData();
+      updateStats();
     });
   </script>
 </body>
