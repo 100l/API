@@ -236,9 +236,8 @@
     let startTime = Date.now();
     let timerInterval;
     
-    // Статистика
-    let humanCount = localStorage.getItem('humanCount') || 0;
-    let botCount = localStorage.getItem('botCount') || 0;
+    // Статистика (зберігається в localStorage)
+    let stats = JSON.parse(localStorage.getItem('captchaStats')) || { humans: 0, bots: 0 };
     
     function updateTimer() {
       const elapsedTime = Date.now() - startTime;
@@ -259,8 +258,12 @@
     }
     
     function updateStats() {
-      document.getElementById('human-count').textContent = humanCount;
-      document.getElementById('bot-count').textContent = botCount;
+      document.getElementById('human-count').textContent = stats.humans;
+      document.getElementById('bot-count').textContent = stats.bots;
+    }
+    
+    function saveStats() {
+      localStorage.setItem('captchaStats', JSON.stringify(stats));
     }
     
     function startTimer() {
@@ -271,16 +274,16 @@
     }
     
     function onSubmit(token) {
-      humanCount++;
-      localStorage.setItem('humanCount', humanCount);
+      stats.humans++;
+      saveStats();
       updateStats();
       clearInterval(timerInterval);
       window.location.href = 'main.html';
     }
     
     function handleBotDetection() {
-      botCount++;
-      localStorage.setItem('botCount', botCount);
+      stats.bots++;
+      saveStats();
       updateStats();
     }
     
