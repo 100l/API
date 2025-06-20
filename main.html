@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Курс Гривні в Реальному Часі</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Підключення шрифту Calibri -->
   <style>
     @font-face {
       font-family: 'Calibri';
@@ -101,7 +100,6 @@
       font-size: 14px;
       width: 100%;
     }
-    /* Стиль для вертикального тексту "Період" */
     .chart-container::after {
       content: 'Період';
       position: absolute;
@@ -113,7 +111,6 @@
       top: 50%;
       right: -40px;
     }
-    /* Адаптивний дизайн */
     @media (max-width: 1024px) {
       .currency-container { flex-direction: column; gap: 20px; }
       .chart-container { max-width: 600px; height: 400px; }
@@ -165,23 +162,23 @@
   </div>
 
   <script>
-    /**
-     * Функція для отримання курсу з API НБУ
-     * @returns {Promise<void>}
-     */
     async function fetchRates() {
       try {
         const response = await fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
+        console.log('API Response:', data); // Відлагодка
         const usdRate = data.find(item => item.cc === 'USD')?.rate || 'Н/Д';
         const eurRate = data.find(item => item.cc === 'EUR')?.rate || 'Н/Д';
         const updateTime = new Date().toLocaleString();
 
         const monthData = await fetchMonthlyRates();
+        console.log('Chart Data:', monthData.map(item => item.usd), monthData.map(item => item.date), `${usdRate} грн`); // Відлагодка
         updateChart('usdChart', monthData.map(item => item.usd), 'Курс USD', monthData.map(item => item.date), `${usdRate} грн`);
         updateChart('eurChart', monthData.map(item => item.eur), 'Курс EUR', monthData.map(item => item.date), `${eurRate} грн`);
         document.getElementById('updateTime').textContent = updateTime;
       } catch (error) {
+        console.error('Fetch Error:', error); // Відлагодка
         document.getElementById('usdChart').innerText = `Помилка: ${error.message}. Спробуйте пізніше.`;
         document.getElementById('eurChart').innerText = `Помилка: ${error.message}. Спробуйте пізніше.`;
       }
@@ -196,6 +193,7 @@
         const dateStr = date.toISOString().split('T')[0].replace(/-/g, '');
         try {
           const response = await fetch(`https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json&date=${dateStr}`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
           const data = await response.json();
           const usd = data.find(item => item.cc === 'USD')?.rate || null;
           const eur = data.find(item => item.cc === 'EUR')?.rate || null;
@@ -268,7 +266,6 @@
           animation: { duration: 1000, easing: 'easeInOutQuad' }
         }
       });
-      // Додаємо скорочені дати для мобільної версії
       if (window.innerWidth <= 767) {
         const shortDates = dates.map(date => date.split('.').slice(0, 2).join('.'));
         chart.data.labels = shortDates;
