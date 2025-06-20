@@ -163,7 +163,7 @@
         width: 120px;
         height: 120px;
         border-width: 6px;
-        transform: perspective(400px) rotateY(45deg);
+        transform: perspective(400px) rotateY(45deg); /* Адаптація для малих екранів */
       }
       .hour-hand { height: 35px; }
       .minute-hand { height: 50px; }
@@ -205,7 +205,7 @@
         <div class="hand second-hand"></div>
         <div class="center-dot"></div>
       </div>
-      <div class="digital-clock">13:45:00</div>
+      <div class="digital-clock">13:42:00</div>
     </div>
     <div class="captcha-section">
       <h2 class="captcha-title">Підтвердіть, що ви людина,<br>і пройдіть CAPTCHA</h2>
@@ -228,9 +228,9 @@
       document.querySelector('.digital-clock').textContent = 
         `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-      // Коректне обчислення кутів для стрілок
-      const hourDeg = (hours % 12 + minutes / 60) * 30; // 30 градусів на годину + корекція за хвилинами
-      const minuteDeg = (minutes + seconds / 60) * 6;   // 6 градусів на хвилину + корекція за секундами
+      // Оновлення стрілок на циферблаті
+      const hourDeg = (hours % 12) * 30 + (minutes / 2); // 30 градусів на годину + 0.5 градуса за хвилину
+      const minuteDeg = minutes * 6 + (seconds / 10);   // 6 градусів на хвилину + 0.1 градуса за секунду
       const secondDeg = seconds * 6;                    // 6 градусів на секунду
 
       document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
