@@ -37,7 +37,7 @@
     .clock {
       width: 150px;
       height: 150px;
-      margin: 0 auto 25px;
+      margin: 0 auto 15px;
       position: relative;
       border: 8px solid #3498db;
       border-radius: 50%;
@@ -54,21 +54,21 @@
     
     .hour-hand {
       width: 6px;
-      height: 50px;
+      height: 40px;
       margin-left: -3px;
       background: #2c3e50;
     }
     
     .minute-hand {
       width: 4px;
-      height: 70px;
+      height: 60px;
       margin-left: -2px;
       background: #2c3e50;
     }
     
     .second-hand {
       width: 2px;
-      height: 80px;
+      height: 70px;
       margin-left: -1px;
       background: #e74c3c;
     }
@@ -85,8 +85,18 @@
       z-index: 10;
     }
     
+    .digital-timer {
+      font-size: 24px;
+      font-family: 'Courier New', monospace;
+      margin: 10px 0 20px;
+      color: #2c3e50;
+      background: rgba(255,255,255,0.7);
+      padding: 5px 15px;
+      border-radius: 5px;
+    }
+    
     h2 {
-      margin: 20px 0;
+      margin: 10px 0;
       color: #2c3e50;
     }
     
@@ -110,9 +120,10 @@
         height: 120px;
         border-width: 6px;
       }
-      .hour-hand { height: 40px; }
-      .minute-hand { height: 55px; }
-      .second-hand { height: 65px; }
+      .hour-hand { height: 35px; }
+      .minute-hand { height: 50px; }
+      .second-hand { height: 60px; }
+      .digital-timer { font-size: 20px; }
     }
   </style>
 </head>
@@ -125,6 +136,8 @@
       <div class="center-dot"></div>
     </div>
     
+    <div class="digital-timer">00:00:00</div>
+    
     <h2>Підтвердіть, що ви людина, і пройдіть CAPTCHA</h2>
     
     <div class="captcha-container" id="captcha"></div>
@@ -136,31 +149,43 @@
   </div>
 
   <script>
-    // Функция для обновления времени на часах
-    function updateClock() {
-      const now = new Date();
-      const hours = now.getHours() % 12;
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
+    // Секундомер
+    let startTime = Date.now();
+    let timerInterval;
+    
+    function updateTimer() {
+      const elapsedTime = Date.now() - startTime;
+      const seconds = Math.floor(elapsedTime / 1000) % 60;
+      const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
+      const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
       
-      const hourDeg = (hours * 30) + (minutes * 0.5);
-      const minuteDeg = minutes * 6;
+      // Обновляем цифровой таймер
+      document.querySelector('.digital-timer').textContent = 
+        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      // Обновляем аналоговые часы (используем секунды как основу)
       const secondDeg = seconds * 6;
+      const minuteDeg = minutes * 6 + seconds * 0.1;
+      const hourDeg = hours * 30 + minutes * 0.5;
       
-      document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
-      document.querySelector('.minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
       document.querySelector('.second-hand').style.transform = `rotate(${secondDeg}deg)`;
+      document.querySelector('.minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
+      document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
     }
-
-    // Обновляем часы каждую секунду
-    setInterval(updateClock, 1000);
-    updateClock(); // Инициализация сразу
-
+    
+    // Запускаем секундомер при загрузке страницы
+    function startTimer() {
+      startTime = Date.now();
+      timerInterval = setInterval(updateTimer, 1000);
+      updateTimer(); // Первое обновление сразу
+    }
+    
     // Обработка CAPTCHA
     function onSubmit(token) {
+      clearInterval(timerInterval); // Останавливаем таймер при успешной проверке
       window.location.href = 'main.html';
     }
-
+    
     function renderCaptcha() {
       if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
         grecaptcha.render('captcha', {
@@ -173,8 +198,11 @@
         setTimeout(renderCaptcha, 100);
       }
     }
-
-    document.addEventListener('DOMContentLoaded', renderCaptcha);
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      startTimer();
+      renderCaptcha();
+    });
   </script>
 </body>
 </html>
