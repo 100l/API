@@ -28,14 +28,14 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px; /* Зменшено для підняття вмісту */
+      padding: 10px;
       text-align: center;
     }
     
     .container {
       width: 100%;
       max-width: 400px;
-      margin: 10px auto; /* Зменшено верхній відступ */
+      margin: 10px auto;
       padding: 10px;
       display: flex;
       flex-direction: column;
@@ -110,7 +110,7 @@
       z-index: 10;
     }
     
-    .digital-timer {
+    .digital-clock {
       font-size: 24px;
       color: #2c3e50;
       padding: 5px;
@@ -148,7 +148,7 @@
     
     @media (max-width: 480px) {
       body {
-        padding: 5px; /* Додаткова адаптація для малих екранів */
+        padding: 5px;
       }
       .container {
         max-width: 90%;
@@ -166,7 +166,7 @@
       .hour-hand { height: 35px; }
       .minute-hand { height: 50px; }
       .second-hand { height: 60px; }
-      .digital-timer { font-size: 20px; }
+      .digital-clock { font-size: 20px; }
       .captcha-title {
         font-size: 1rem;
         padding: 0 5px;
@@ -203,7 +203,7 @@
         <div class="hand second-hand"></div>
         <div class="center-dot"></div>
       </div>
-      <div class="digital-timer">00:00:00</div>
+      <div class="digital-clock">00:00:00</div>
     </div>
     <div class="captcha-section">
       <h2 class="captcha-title">Підтвердіть, що ви людина,<br>і пройдіть CAPTCHA</h2>
@@ -216,36 +216,31 @@
   </div>
 
   <script>
-    // Секундомір
-    let startTime = Date.now();
-    let timerInterval;
-    
-    function updateTimer() {
-      const elapsedTime = Date.now() - startTime;
-      const seconds = Math.floor(elapsedTime / 1000) % 60;
-      const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
-      const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-      
-      document.querySelector('.digital-timer').textContent = 
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+
+      // Оновлення цифрового годинника
+      document.querySelector('.digital-clock').textContent = 
         `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
-      const secondDeg = seconds * 6;
-      const minuteDeg = minutes * 6 + seconds * 0.1;
-      const hourDeg = hours * 30 + minutes * 0.5;
-      
-      document.querySelector('.second-hand').style.transform = `rotate(${secondDeg}deg)`;
-      document.querySelector('.minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
+
+      // Оновлення стрілок на циферблаті
+      const hourDeg = (hours % 12) * 30 + (minutes / 2); // 30 градусів на годину + 0.5 градуса за хвилину
+      const minuteDeg = minutes * 6 + (seconds / 10);   // 6 градусів на хвилину + 0.1 градуса за секунду
+      const secondDeg = seconds * 6;                    // 6 градусів на секунду
+
       document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
+      document.querySelector('.minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
+      document.querySelector('.second-hand').style.transform = `rotate(${secondDeg}deg)`;
     }
-    
-    function startTimer() {
-      startTime = Date.now();
-      timerInterval = setInterval(updateTimer, 1000);
-      updateTimer();
-    }
-    
+
+    // Оновлення кожну секунду
+    setInterval(updateClock, 1000);
+    updateClock(); // Початкове оновлення
+
     function onSubmit(token) {
-      clearInterval(timerInterval);
       window.location.href = 'main.html';
     }
     
@@ -263,7 +258,6 @@
     }
     
     document.addEventListener('DOMContentLoaded', function() {
-      startTimer();
       renderCaptcha();
     });
   </script>
