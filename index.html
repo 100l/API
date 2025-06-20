@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Курс Гривні - Перевірка</title>
   <script src="https://www.google.com/recaptcha/api.js?render=explicit&hl=uk" async defer></script>
-  <!-- Підключення шрифту Calibri -->
   <style>
     @font-face {
       font-family: 'Calibri';
@@ -79,7 +78,7 @@
       width: 2px;
       height: 70px;
       margin-left: -1px;
-      background: #e74c3c;
+      background: #FFA500; /* Оранжевий колір */
     }
     
     .center-dot {
@@ -102,10 +101,13 @@
       letter-spacing: 1px;
     }
     
-    h2 {
+    .captcha-title {
       margin: 10px 0;
       color: #2c3e50;
       font-weight: normal;
+      font-size: 1.2rem;
+      line-height: 1.4;
+      padding: 0 10px;
     }
     
     .captcha-container {
@@ -120,6 +122,7 @@
       margin-top: 30px;
       color: #7f8c8d;
       font-size: 12px;
+      line-height: 1.4;
     }
     
     @media (max-width: 480px) {
@@ -132,6 +135,23 @@
       .minute-hand { height: 50px; }
       .second-hand { height: 60px; }
       .digital-timer { font-size: 20px; }
+      .captcha-title {
+        font-size: 1rem;
+        padding: 0 5px;
+      }
+      .footer {
+        font-size: 11px;
+        padding: 0 10px;
+      }
+    }
+    
+    @media (max-width: 320px) {
+      .captcha-title {
+        font-size: 0.9rem;
+      }
+      .footer {
+        font-size: 10px;
+      }
     }
   </style>
 </head>
@@ -146,7 +166,7 @@
     
     <div class="digital-timer">00:00:00</div>
     
-    <h2>Підтвердіть, що ви людина,<br>і пройдіть CAPTCHA</h2>
+    <h2 class="captcha-title">Підтвердіть, що ви людина,<br>і пройдіть CAPTCHA</h2>
     
     <div class="captcha-container" id="captcha"></div>
     
