@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Курс Гривні в Реальному Часі - Перевірка</title>
   <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet>
   <style>
     * { box-sizing: border-box; }
     body {
@@ -31,75 +31,40 @@
       max-width: 400px;
       padding: 20px;
     }
-    .silhouette {
+    .clock-container {
+      position: relative;
       width: 200px;
       height: 200px;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-1.86.67-3.56 1.78-4.88l.22-.26c.5-.6 1.22-.94 2-1c1.1-.1 2.2.2 3 .8c.8-.6 1.9-.9 3-.8c.78.06 1.5.4 2 1l.22.26c1.11 1.32 1.78 3.02 1.78 4.88 0 4.41-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" /><path d="M12 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>') no-repeat center;
-      background-size: contain;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
-    .captcha-container {
-      margin-top: 20px;
-      min-width: 280px; /* Мінімальна ширина для reCAPTCHA */
-      min-height: 78px; /* Мінімальна висота для відображення */
-    }
-    .footer {
-      margin-top: auto;
-      padding: 15px 0;
-      text-align: center;
-      color: #7f8c8d;
-      font-size: 12px;
+    .clock-face {
       width: 100%;
+      height: 100%;
+      border: 8px solid #3498db;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-    /* Адаптивний дизайн */
-    @media (max-width: 480px) {
-      body { font-size: 10px; padding: 10px; }
-      .silhouette { width: 150px; height: 150px; }
-      .content { max-width: 90%; padding: 10px; }
-      .captcha-container { min-width: 250px; min-height: 70px; }
-      .footer { font-size: 9px; }
+    .hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform-origin: 50% 100%;
+      background: #2c3e50;
+      border-radius: 5px;
     }
-    @media (max-width: 320px) {
-      .captcha-container { min-width: 220px; min-height: 65px; }
+    .hour-hand {
+      width: 6px;
+      height: 60px;
+      margin-left: -3px;
     }
-  </style>
-</head>
-<body>
-  <div class="content">
-    <div class="silhouette"></div>
-    <h2>Підтвердіть, що ви людина, і пройдіть CAPTCHA</h2>
-    <div class="captcha-container" id="captcha"></div>
-  </div>
-  <div class="footer">
-    © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
-    Тема: Інтеграція державних сервісів через API та хмарні технології
-  </div>
-
-  <script>
-    // Ініціалізація reCAPTCHA
-    function onSubmit(token) {
-      window.location.href = 'main.html'; // Перенаправлення на основну сторінку після успішного проходження
+    .minute-hand {
+      width: 4px;
+      height: 80px;
+      margin-left: -2px;
     }
-
-    // Динамічне додавання reCAPTCHA з обробкою помилок
-    window.onload = function() {
-      const captchaDiv = document.getElementById('captcha');
-      if (captchaDiv) {
-        try {
-          grecaptcha.render('captcha', {
-            'sitekey': '6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV',
-            'callback': onSubmit,
-            'theme': 'light',
-            'size': 'normal' // Гарантуємо нормальний розмір
-          });
-        } catch (error) {
-          console.error('Помилка завантаження reCAPTCHA:', error);
-          captchaDiv.innerHTML = '<p>Не вдалося завантажити CAPTCHA. Спробуйте пізніше.</p>';
-        }
-      } else {
-        console.error('Елемент captcha не знайдено.');
-      }
-    };
-  </script>
-</body>
-</html>
+    .second-hand {
+      width: 2px;
+      height: 90px;
+      margin-left: -1px;
+      background: #e74c3c;
