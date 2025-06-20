@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Курс Гривні - Перевірка</title>
-  <!-- Додано параметр hl=uk для української мови -->
   <script src="https://www.google.com/recaptcha/api.js?render=explicit&hl=uk" async defer></script>
   <style>
     * {
@@ -91,9 +90,8 @@
       font-family: 'Courier New', monospace;
       margin: 10px 0 20px;
       color: #2c3e50;
-      background: rgba(255,255,255,0.7);
-      padding: 5px 15px;
-      border-radius: 5px;
+      /* Видалено білий фон */
+      padding: 5px;
     }
     
     h2 {
@@ -160,11 +158,9 @@
       const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
       const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
       
-      // Оновлюємо цифровий таймер
       document.querySelector('.digital-timer').textContent = 
         `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       
-      // Оновлюємо аналогові годинники
       const secondDeg = seconds * 6;
       const minuteDeg = minutes * 6 + seconds * 0.1;
       const hourDeg = hours * 30 + minutes * 0.5;
@@ -174,16 +170,14 @@
       document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
     }
     
-    // Запускаємо секундомір при завантаженні сторінки
     function startTimer() {
       startTime = Date.now();
       timerInterval = setInterval(updateTimer, 1000);
-      updateTimer(); // Перше оновлення відразу
+      updateTimer();
     }
     
-    // Обробка CAPTCHA
     function onSubmit(token) {
-      clearInterval(timerInterval); // Зупиняємо таймер при успішній перевірці
+      clearInterval(timerInterval);
       window.location.href = 'main.html';
     }
     
