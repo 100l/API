@@ -42,17 +42,21 @@
       align-items: center;
     }
     
-    .clock-label {
-      margin-bottom: 10px;
+    .title {
+      margin-bottom: 30px; /* Більший відступ перед годинником */
       color: #2c3e50;
-      font-size: 1.1rem;
+      font-size: 1.5rem;
       font-weight: bold;
+    }
+    
+    .clock-label {
+      display: none; /* Приховуємо старий label, оскільки заголовок тепер вище */
     }
     
     .clock {
       width: 150px;
       height: 150px;
-      margin: 0 auto 15px;
+      margin: 0 auto 30px; /* Більший відступ перед таймером */
       position: relative;
       border: 8px solid #3498db;
       border-radius: 50%;
@@ -102,7 +106,7 @@
     
     .digital-timer {
       font-size: 24px;
-      margin: 10px 0 15px;
+      margin: 20px 0 40px; /* Більший відступ перед CAPTCHA */
       color: #2c3e50;
       padding: 5px;
       letter-spacing: 1px;
@@ -133,8 +137,8 @@
     }
     
     @media (max-width: 480px) {
-      .clock-label {
-        font-size: 1rem;
+      .title {
+        font-size: 1.3rem;
       }
       .clock {
         width: 120px;
@@ -156,8 +160,8 @@
     }
     
     @media (max-width: 320px) {
-      .clock-label {
-        font-size: 0.9rem;
+      .title {
+        font-size: 1.1rem;
       }
       .captcha-title {
         font-size: 0.9rem;
@@ -170,7 +174,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="clock-label">Курс валют в реальному часі</div>
+    <div class="title">Курс валют в реальному часі</div>
     <div class="clock">
       <div class="hand hour-hand"></div>
       <div class="hand minute-hand"></div>
