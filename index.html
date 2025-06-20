@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Курс Гривні в Реальному Часі - Перевірка</title>
-  <link rel="icon" href="data:,"> <!-- Пустой favicon, чтобы избежать 404 -->
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
@@ -23,6 +22,14 @@
       justify-content: center;
       text-align: center;
     }
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 400px;
+    }
     .silhouette {
       width: 200px;
       height: 200px;
@@ -32,7 +39,6 @@
     }
     .captcha-container {
       margin-top: 20px;
-      min-height: 78px; /* Минимальная высота под reCAPTCHA */
     }
     .footer {
       margin-top: auto;
@@ -42,19 +48,20 @@
       font-size: 12px;
       width: 100%;
     }
+    /* Адаптивний дизайн */
     @media (max-width: 480px) {
       body { font-size: 10px; padding: 10px; }
       .silhouette { width: 150px; height: 150px; }
+      .content { max-width: 90%; }
       .footer { font-size: 9px; }
-      .captcha-container { transform: scale(0.85); } /* Адаптация под мобильные */
     }
   </style>
 </head>
 <body>
-  <div class="silhouette"></div>
-  <h2>Підтвердіть, що ви людина, і пройдіть CAPTCHA</h2>
-  <div class="captcha-container" id="captcha">
-    <noscript>Увімкніть JavaScript для проходження CAPTCHA</noscript>
+  <div class="content">
+    <div class="silhouette"></div>
+    <h2>Підтвердіть, що ви людина, і пройдіть CAPTCHA</h2>
+    <div class="captcha-container" id="captcha"></div>
   </div>
   <div class="footer">
     © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
@@ -62,22 +69,27 @@
   </div>
 
   <script>
+    // Ініціалізація reCAPTCHA
     function onSubmit(token) {
-      window.location.href = 'main.html'; // Перенаправление после успешной проверки
+      window.location.href = 'main.html'; // Перенаправлення на основну сторінку після успішного проходження
     }
 
+    // Динамічне додавання reCAPTCHA з обробкою помилок
     window.onload = function() {
       const captchaDiv = document.getElementById('captcha');
-      
-      if (typeof grecaptcha !== 'undefined') {
-        captchaDiv.innerHTML = `
-          <div class="g-recaptcha" 
-               data-sitekey="6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV" 
-               data-callback="onSubmit"
-               data-theme="light"></div>
-        `;
+      if (captchaDiv) {
+        try {
+          grecaptcha.render('captcha', {
+            'sitekey': '6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV',
+            'callback': onSubmit,
+            'theme': 'light'
+          });
+        } catch (error) {
+          console.error('Помилка завантаження reCAPTCHA:', error);
+          captchaDiv.innerHTML = '<p>Не вдалося завантажити CAPTCHA. Спробуйте пізніше.</p>';
+        }
       } else {
-        captchaDiv.innerHTML = '<p style="color:red">Помилка завантаження CAPTCHA. Спробуйте оновити сторінку.</p>';
+        console.error('Елемент captcha не знайдено.');
       }
     };
   </script>
