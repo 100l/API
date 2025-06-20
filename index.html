@@ -28,23 +28,23 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 10px; /* Зменшено для підняття вмісту */
       text-align: center;
     }
     
     .container {
       width: 100%;
       max-width: 400px;
-      margin: 0 auto;
-      padding: 20px;
+      margin: 10px auto; /* Зменшено верхній відступ */
+      padding: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px; /* Зменшено для кращого контролю відступів */
+      gap: 20px;
     }
     
     .title {
-      margin-bottom: 0; /* Відступ перед clock-wrapper */
+      margin-bottom: 30px;
       color: #2c3e50;
       font-size: 1.5rem;
       font-weight: bold;
@@ -54,7 +54,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 30px; /* Рівна відстань між title, clock і digital-timer */
+      gap: 30px;
     }
     
     .clock {
@@ -147,8 +147,13 @@
     }
     
     @media (max-width: 480px) {
+      body {
+        padding: 5px; /* Додаткова адаптація для малих екранів */
+      }
       .container {
         max-width: 90%;
+        margin: 5px auto;
+        padding: 5px;
       }
       .title {
         font-size: 1.3rem;
