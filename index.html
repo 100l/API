@@ -34,33 +34,39 @@
     
     .container {
       width: 100%;
-      max-width: 400px;
+      max-width: 500px;
       margin: 0 auto;
       padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 30px;
     }
     
     .title {
-      margin-bottom: 30px; /* Більший відступ перед годинником */
-      color: #2c3e50;
-      font-size: 1.5rem;
-      font-weight: bold;
+      margin-bottom: 20px;
+      color: #1d1d1f;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
     
-    .clock-label {
-      display: none; /* Приховуємо старий label, оскільки заголовок тепер вище */
+    .clock-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
     }
     
     .clock {
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 30px; /* Більший відступ перед таймером */
+      width: 180px;
+      height: 180px;
       position: relative;
-      border: 8px solid #3498db;
+      border: 10px solid #0071e3;
       border-radius: 50%;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      overflow: hidden; /* Забезпечує видимість рук */
     }
     
     .hand {
@@ -69,102 +75,111 @@
       left: 50%;
       transform-origin: 50% 100%;
       border-radius: 5px;
+      transition: transform 0.5s ease; /* Плавна анімація */
     }
     
     .hour-hand {
-      width: 6px;
-      height: 40px;
-      margin-left: -3px;
-      background: #2c3e50;
+      width: 8px;
+      height: 50px;
+      margin-left: -4px;
+      background: #1d1d1f;
     }
     
     .minute-hand {
-      width: 4px;
-      height: 60px;
-      margin-left: -2px;
-      background: #2c3e50;
+      width: 5px;
+      height: 70px;
+      margin-left: -2.5px;
+      background: #1d1d1f;
     }
     
     .second-hand {
       width: 2px;
-      height: 70px;
+      height: 85px;
       margin-left: -1px;
-      background: #FFA500;
+      background: #ff9500;
     }
     
     .center-dot {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 12px;
-      height: 12px;
-      background: #2c3e50;
+      width: 14px;
+      height: 14px;
+      background: #1d1d1f;
       border-radius: 50%;
       transform: translate(-50%, -50%);
       z-index: 10;
     }
     
     .digital-timer {
-      font-size: 24px;
-      margin: 20px 0 40px; /* Більший відступ перед CAPTCHA */
-      color: #2c3e50;
+      font-size: 28px;
+      color: #1d1d1f;
       padding: 5px;
       letter-spacing: 1px;
     }
     
+    .captcha-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+    
     .captcha-title {
-      margin: 10px 0;
-      color: #2c3e50;
-      font-weight: normal;
-      font-size: 1.2rem;
-      line-height: 1.4;
+      color: #1d1d1f;
+      font-weight: 500;
+      font-size: 1.3rem;
+      line-height: 1.5;
       padding: 0 10px;
     }
     
     .captcha-container {
-      margin: 20px 0 15px;
-      min-width: 280px;
+      min-width: 300px;
       min-height: 78px;
       display: flex;
       justify-content: center;
     }
     
     .footer {
-      margin-top: 30px;
-      color: #7f8c8d;
+      margin-top: 40px;
+      color: #6e6e73;
       font-size: 12px;
-      line-height: 1.4;
+      line-height: 1.5;
     }
     
     @media (max-width: 480px) {
+      .container {
+        max-width: 90%;
+      }
       .title {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
       }
       .clock {
-        width: 120px;
-        height: 120px;
-        border-width: 6px;
+        width: 140px;
+        height: 140px;
+        border-width: 8px;
       }
-      .hour-hand { height: 35px; }
-      .minute-hand { height: 50px; }
-      .second-hand { height: 60px; }
-      .digital-timer { font-size: 20px; }
+      .hour-hand { height: 40px; }
+      .minute-hand { height: 55px; }
+      .second-hand { height: 70px; }
+      .digital-timer { font-size: 22px; }
       .captcha-title {
-        font-size: 1rem;
-        padding: 0 5px;
+        font-size: 1.1rem;
+      }
+      .captcha-container {
+        min-width: 250px;
       }
       .footer {
         font-size: 11px;
-        padding: 0 10px;
       }
     }
     
     @media (max-width: 320px) {
       .title {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
       }
       .captcha-title {
-        font-size: 0.9rem;
+        font-size: 1rem;
       }
       .footer {
         font-size: 10px;
@@ -175,19 +190,19 @@
 <body>
   <div class="container">
     <div class="title">Курс валют в реальному часі</div>
-    <div class="clock">
-      <div class="hand hour-hand"></div>
-      <div class="hand minute-hand"></div>
-      <div class="hand second-hand"></div>
-      <div class="center-dot"></div>
+    <div class="clock-wrapper">
+      <div class="clock">
+        <div class="hand hour-hand"></div>
+        <div class="hand minute-hand"></div>
+        <div class="hand second-hand"></div>
+        <div class="center-dot"></div>
+      </div>
+      <div class="digital-timer">00:00:00</div>
     </div>
-    
-    <div class="digital-timer">00:00:00</div>
-    
-    <h2 class="captcha-title">Підтвердіть, що ви людина,<br>і пройдіть CAPTCHA</h2>
-    
-    <div class="captcha-container" id="captcha"></div>
-    
+    <div class="captcha-section">
+      <h2 class="captcha-title">Підтвердіть, що ви людина,<br>і пройдіть CAPTCHA</h2>
+      <div class="captcha-container" id="captcha"></div>
+    </div>
     <div class="footer">
       © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
       Тема: Інтеграція державних сервісів через API та хмарні технології
