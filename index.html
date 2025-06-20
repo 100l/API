@@ -42,6 +42,13 @@
       align-items: center;
     }
     
+    .clock-label {
+      margin-bottom: 10px;
+      color: #2c3e50;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    
     .clock {
       width: 150px;
       height: 150px;
@@ -126,6 +133,9 @@
     }
     
     @media (max-width: 480px) {
+      .clock-label {
+        font-size: 1rem;
+      }
       .clock {
         width: 120px;
         height: 120px;
@@ -146,6 +156,9 @@
     }
     
     @media (max-width: 320px) {
+      .clock-label {
+        font-size: 0.9rem;
+      }
       .captcha-title {
         font-size: 0.9rem;
       }
@@ -157,6 +170,7 @@
 </head>
 <body>
   <div class="container">
+    <div class="clock-label">Курс валют в реальному часі</div>
     <div class="clock">
       <div class="hand hour-hand"></div>
       <div class="hand minute-hand"></div>
