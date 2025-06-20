@@ -40,11 +40,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 30px;
+      gap: 20px; /* Зменшено для кращого контролю відступів */
     }
     
     .title {
-      margin-bottom: 30px;
+      margin-bottom: 0; /* Відступ перед clock-wrapper */
       color: #2c3e50;
       font-size: 1.5rem;
       font-weight: bold;
@@ -54,7 +54,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 30px; /* Рівна відстань між title, clock і digital-timer */
     }
     
     .clock {
@@ -140,7 +140,7 @@
     }
     
     .footer {
-      margin-top: 20px; /* Піднято вище, зменшено відступ */
+      margin-top: 20px;
       color: #7f8c8d;
       font-size: 12px;
       line-height: 1.4;
