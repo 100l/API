@@ -68,3 +68,120 @@
       height: 90px;
       margin-left: -1px;
       background: #e74c3c;
+    }
+    .hryvnia-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #f1c40f;
+    }
+    .center-dot {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      background: #2c3e50;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+    .captcha-container {
+      margin-top: 20px;
+      min-width: 280px;
+      min-height: 78px;
+    }
+    .footer {
+      margin-top: auto;
+      padding: 15px 0;
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 12px;
+      width: 100%;
+    }
+    /* Адаптивний дизайн */
+    @media (max-width: 480px) {
+      body { font-size: 10px; padding: 10px; }
+      .clock-container { width: 150px; height: 150px; }
+      .clock-face { border-width: 6px; }
+      .hour-hand { height: 45px; width: 5px; margin-left: -2.5px; }
+      .minute-hand { height: 60px; }
+      .second-hand { height: 70px; }
+      .content { max-width: 90%; padding: 10px; }
+      .captcha-container { min-width: 250px; min-height: 70px; }
+      .footer { font-size: 9px; }
+    }
+    @media (max-width: 320px) {
+      .captcha-container { min-width: 220px; min-height: 65px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="clock-container">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand minute-hand"></div>
+        <div class="hand second-hand"></div>
+        <div class="center-dot"></div>
+        <div class="hryvnia-icon">₴</div>
+      </div>
+    </div>
+    <h2>Підтвердіть, що ви людина, і пройдіть CAPTCHA</h2>
+    <div class="captcha-container" id="captcha"></div>
+  </div>
+  <div class="footer">
+    © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
+    Тема: Інтеграція державних сервісів через API та хмарні технології
+  </div>
+
+  <script>
+    // Анімація годинника
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours() % 12;
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      
+      const hourHand = document.querySelector('.hour-hand');
+      const minuteHand = document.querySelector('.minute-hand');
+      const secondHand = document.querySelector('.second-hand');
+      
+      const hourDeg = (hours * 30) + (minutes * 0.5);
+      const minuteDeg = minutes * 6;
+      const secondDeg = seconds * 6;
+      
+      hourHand.style.transform = `rotate(${hourDeg}deg)`;
+      minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+      secondHand.style.transform = `rotate(${secondDeg}deg)`;
+    }
+    
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Ініціалізація reCAPTCHA
+    function onSubmit(token) {
+      window.location.href = 'main.html';
+    }
+
+    window.onload = function() {
+      const captchaDiv = document.getElementById('captcha');
+      if (captchaDiv) {
+        try {
+          grecaptcha.render('captcha', {
+            'sitekey': '6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV',
+            'callback': onSubmit,
+            'theme': 'light',
+            'size': 'normal'
+          });
+        } catch (error) {
+          console.error('Помилка завантаження reCAPTCHA:', error);
+          captchaDiv.innerHTML = '<p>Не вдалося завантажити CAPTCHA. Спробуйте пізніше.</p>';
+        }
+      }
+    };
+  </script>
+</body>
+</html>
