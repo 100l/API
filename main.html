@@ -29,7 +29,7 @@
       align-items: center;
     }
     h2 {
-      margin-bottom: 20px;
+      margin-bottom: 10px; /* Піднято кнопку на одну строку, зменшено відступ */
       color: #8e44ad;
       font-size: 28px;
       text-transform: uppercase;
@@ -39,7 +39,7 @@
     }
     h2:hover { color: #3498db; }
     .controls {
-      margin-bottom: 20px;
+      margin-bottom: 10px; /* Зменшено відступ під кнопкою для розміщення дати/часу */
       text-align: center;
     }
     button {
@@ -56,6 +56,12 @@
     button:hover {
       background: linear-gradient(45deg, #2980b9, #9b59b6);
       transform: scale(1.05);
+    }
+    .update-info {
+      font-size: 14px;
+      color: #7f8c8d;
+      margin-top: 5px; /* Додатковий відступ під кнопкою для дати/часу */
+      text-align: center;
     }
     .currency-container {
       display: flex;
@@ -108,6 +114,7 @@
       h2 { font-size: 24px; }
       button { font-size: 14px; padding: 10px 20px; }
       .footer { font-size: 12px; }
+      .update-info { font-size: 12px; }
     }
     @media (max-width: 480px) {
       .chart-container { width: 95%; height: 250px; }
@@ -116,6 +123,7 @@
       h2 { font-size: 20px; }
       button { padding: 8px 16px; }
       .footer { font-size: 11px; }
+      .update-info { font-size: 11px; }
     }
   </style>
 </head>
@@ -123,6 +131,7 @@
   <h2>Курс Гривні в Реальному Часі</h2>
   <div class="controls">
     <button onclick="fetchRates()">Оновити</button>
+    <div class="update-info" id="updateTime"></div>
   </div>
   <div class="currency-container">
     <div class="chart-section">
@@ -155,8 +164,9 @@
         const updateTime = new Date().toLocaleString();
 
         const monthData = await fetchMonthlyRates();
-        updateChart('usdChart', monthData.map(item => item.usd), 'Курс USD/UAH', monthData.map(item => item.date), `Долар: ${usdRate} грн (оновлено: ${updateTime})`);
-        updateChart('eurChart', monthData.map(item => item.eur), 'Курс EUR/UAH', monthData.map(item => item.date), `Євро: ${eurRate} грн (оновлено: ${updateTime})`);
+        updateChart('usdChart', monthData.map(item => item.usd), 'Курс UAH', monthData.map(item => item.date), `${usdRate} грн`);
+        updateChart('eurChart', monthData.map(item => item.eur), 'Курс UAH', monthData.map(item => item.date), `${eurRate} грн`);
+        document.getElementById('updateTime').textContent = updateTime; // Виведення дати/часу оновлення
       } catch (error) {
         document.getElementById('usdChart').innerText = `Помилка: ${error.message}. Спробуйте пізніше.`;
         document.getElementById('eurChart').innerText = `Помилка: ${error.message}. Спробуйте пізніше.`;
