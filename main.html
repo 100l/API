@@ -8,167 +8,145 @@
   <style>
     @font-face {
       font-family: 'Calibri';
-      src: local('Calibri'), local('Calibri Regular'), 
-           url('https://fonts.cdnfonts.com/css/calibri') format('woff2');
-      font-weight: normal;
-      font-style: normal;
+      src: local('Calibri'), url('https://fonts.cdnfonts.com/css/calibri') format('woff2');
     }
     
     * { 
-      box-sizing: border-box; 
-      font-family: 'Calibri', Arial, sans-serif;
-    }
-    body {
-      font-size: 16px;
+      box-sizing: border-box;
+      font-family: 'Calibri', sans-serif;
       margin: 0;
-      padding: 10px 20px;
+      padding: 0;
+    }
+    
+    body {
       background: linear-gradient(135deg, #f5f7fa 0%, #ecf0f1 100%);
       color: #2c3e50;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-height: 100vh;
+      padding: 10px 20px;
+      font-size: 16px;
     }
+    
     h2 {
-      margin: 5px 0;
       color: #8e44ad;
       font-size: 28px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: color 0.3s ease;
-      text-align: center;
-      font-family: 'Calibri', Arial, sans-serif;
       font-weight: bold;
+      letter-spacing: 1px;
+      margin: 5px 0;
+      text-align: center;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
     }
+    
     h2:hover { color: #3498db; }
+    
     .controls {
       margin: 5px 0;
       text-align: center;
     }
+    
     button {
-      font-size: 16px;
-      padding: 12px 24px;
       background: linear-gradient(45deg, #3498db, #8e44ad);
-      color: #fff;
       border: none;
       border-radius: 5px;
+      color: #fff;
       cursor: pointer;
-      transition: background 0.3s ease, transform 0.3s ease;
+      font-size: 16px;
+      padding: 12px 24px;
+      transition: all 0.3s ease;
     }
+    
     button:hover {
       background: linear-gradient(45deg, #2980b9, #9b59b6);
       transform: scale(1.05);
     }
+    
     .update-info {
-      font-size: 14px;
       color: #7f8c8d;
+      font-size: 14px;
       margin-top: 5px;
-      text-align: center;
     }
+    
     .currency-container {
       display: flex;
-      justify-content: center;
       gap: 30px;
+      justify-content: center;
+      margin: 0 auto;
       max-width: 1200px;
       width: 100%;
-      margin: 0 auto;
       flex: 1;
     }
+    
     .chart-section {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
       min-width: 0;
-      text-align: center;
     }
+    
     .chart-container {
-      width: 100%;
       background: #fff;
-      padding: 15px;
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      margin: 0 auto;
       height: 380px;
+      margin: 0 auto;
+      padding: 15px;
       position: relative;
+      width: 100%;
     }
-    canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
+    
     .footer {
+      color: #7f8c8d;
+      font-size: 12px;
+      line-height: 1.3;
       margin-top: 20px;
       padding: 15px 0;
       text-align: center;
-      color: #7f8c8d;
-      font-size: 12px;
       width: 100%;
-      line-height: 1.3;
     }
+    
     @media (max-width: 1024px) {
       .currency-container { 
-        flex-direction: column; 
-        gap: 20px; 
+        flex-direction: column;
+        gap: 20px;
       }
       .chart-container { 
-        height: 350px; 
+        height: 350px;
       }
     }
+    
     @media (max-width: 767px) {
-      h2 {
-        font-size: 20px;
-        white-space: nowrap;
-      }
-      .currency-container {
-        flex-direction: column;
-        gap: 10px; /* Зменшений відступ між графіками */
-        margin-top: 5px;
-      }
-      .chart-section {
-        width: 100%;
-        margin-bottom: 5px; /* Додатковий відступ знизу */
-      }
+      h2 { font-size: 20px; }
+      .currency-container { gap: 10px; }
       .chart-container { 
         height: 250px;
         padding: 10px;
       }
-      body { 
-        padding: 5px 10px;
-      }
+      body { padding: 5px 10px; }
       button { 
-        font-size: 14px; 
-        padding: 10px 20px; 
+        font-size: 14px;
+        padding: 10px 20px;
       }
-      .update-info { 
-        font-size: 12px; 
-      }
+      .update-info { font-size: 12px; }
       .footer {
         font-size: 11px;
+        margin-top: 10px;
         padding: 10px 0;
-        margin-top: 10px; /* Підняли футер вище */
       }
     }
+    
     @media (max-width: 480px) {
-      h2 {
-        font-size: 18px;
-      }
-      .chart-container { 
-        height: 220px; 
-      }
+      h2 { font-size: 18px; }
+      .chart-container { height: 220px; }
       body { 
-        font-size: 14px; 
-        padding: 5px 10px 0; /* Зменшений відступ знизу */
+        font-size: 14px;
+        padding: 5px 10px 0;
       }
-      button { 
-        padding: 8px 16px; 
-      }
-      .footer { 
+      button { padding: 8px 16px; }
+      .footer {
         font-size: 10px;
-        margin-top: 5px; /* Ще більше підняли футер */
+        margin-top: 5px;
         padding: 5px 0;
-      }
-      .update-info { 
-        font-size: 11px; 
       }
     }
   </style>
@@ -197,12 +175,60 @@
   </div>
 
   <script>
-    let myCharts = {};
+    const myCharts = {};
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: false,
+          grid: { color: 'rgba(0, 0, 0, 0.05)', drawBorder: false },
+          ticks: { font: { family: 'Calibri', size: 14 } }
+        },
+        x: {
+          grid: { 
+            color: 'rgba(0, 0, 0, 0.05)',
+            drawOnChartArea: true,
+            drawTicks: true,
+            drawBorder: false
+          },
+          ticks: {
+            maxRotation: 90,
+            minRotation: 90,
+            font: { family: 'Calibri', size: 14 },
+            autoSkip: false
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          position: 'top',
+          align: 'center',
+          onClick: null,
+          labels: {
+            generateLabels: chart => [{
+              text: `${chart.config.data.datasets[0].label} ${chart.config.data.datasets[0].currentRate || ''}`,
+              fillStyle: 'rgba(0, 0, 0, 0)',
+              font: { family: 'Calibri', size: 16, weight: 'bold' },
+              datasetIndex: 0
+            }],
+            boxWidth: 0,
+            padding: 10
+          }
+        },
+        tooltip: {
+          bodyFont: { family: 'Calibri', size: 14 },
+          titleFont: { family: 'Calibri', size: 14, weight: 'bold' }
+        }
+      },
+      animation: { duration: 1000, easing: 'easeInOutQuad' }
+    };
 
     async function fetchRates() {
       try {
         const response = await fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) throw new Error(`Помилка HTTP: ${response.status}`);
+        
         const data = await response.json();
         const usdRate = data.find(item => item.cc === 'USD')?.rate || 'Н/Д';
         const eurRate = data.find(item => item.cc === 'EUR')?.rate || 'Н/Д';
@@ -216,167 +242,86 @@
 
         const monthData = await fetchMonthlyRates();
         
-        updateChart('usdChart', monthData.map(item => item.usd), 'USD', monthData.map(item => item.date), `${usdRate} грн`);
-        updateChart('eurChart', monthData.map(item => item.eur), 'EUR', monthData.map(item => item.date), `${eurRate} грн`);
+        updateChart('usdChart', monthData, 'USD', usdRate);
+        updateChart('eurChart', monthData, 'EUR', eurRate);
         
         document.getElementById('updateTime').textContent = updateTime;
       } catch (error) {
-        console.error('Fetch Error:', error);
+        console.error('Помилка:', error);
         document.getElementById('updateTime').textContent = `Помилка: ${error.message}`;
       }
     }
 
     async function fetchMonthlyRates() {
-      const monthData = [];
       const today = new Date();
+      const monthData = [];
       
-      // Собираем данные только для каждого второго дня (чтобы уменьшить количество точек)
       for (let i = 0; i < 30; i += 2) {
         const date = new Date(today);
         date.setDate(today.getDate() - i);
         const dateStr = date.toISOString().split('T')[0].replace(/-/g, '');
+        
         try {
           const response = await fetch(`https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json&date=${dateStr}`);
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          if (!response.ok) continue;
+          
           const data = await response.json();
-          const usd = data.find(item => item.cc === 'USD')?.rate || null;
-          const eur = data.find(item => item.cc === 'EUR')?.rate || null;
-          monthData.push({ 
-            date: date.toLocaleDateString('uk-UA', { 
-              day: '2-digit', 
-              month: '2-digit'
-            }), 
-            usd: usd, 
-            eur: eur 
+          monthData.push({
+            date: date.toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit' }),
+            usd: data.find(item => item.cc === 'USD')?.rate || null,
+            eur: data.find(item => item.cc === 'EUR')?.rate || null
           });
         } catch (error) {
-          monthData.push({ 
-            date: date.toLocaleDateString('uk-UA', { 
-              day: '2-digit', 
-              month: '2-digit'
-            }), 
-            usd: null, 
-            eur: null 
-          });
+          continue;
         }
       }
       return monthData.reverse();
     }
 
-    function updateChart(chartId, data, label, dates, currentRate) {
+    function updateChart(chartId, monthData, currency, currentRate) {
       const ctx = document.getElementById(chartId).getContext('2d');
+      const dataValues = monthData.map(item => item[currency.toLowerCase()]);
+      const labels = monthData.map(item => item.date);
       
-      if (myCharts[chartId]) {
-        myCharts[chartId].destroy();
-      }
+      if (myCharts[chartId]) myCharts[chartId].destroy();
 
-      const baseFontSize = window.innerWidth <= 480 ? 12 : 14;
-      
+      const color = chartId === 'usdChart' ? 
+        { border: '#f1c40f', bg: 'rgba(241, 196, 15, 0.2)' } : 
+        { border: '#e74c3c', bg: 'rgba(231, 76, 60, 0.2)' };
+
+      const options = JSON.parse(JSON.stringify(chartOptions));
+      options.plugins.legend.labels.generateLabels = () => [{
+        text: `${currency} ${currentRate} грн`,
+        fillStyle: 'rgba(0, 0, 0, 0)',
+        font: { family: 'Calibri', size: 16, weight: 'bold' },
+        datasetIndex: 0
+      }];
+
       myCharts[chartId] = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: dates,
+          labels,
           datasets: [{
-            label: label,
-            data: data,
-            borderColor: chartId === 'usdChart' ? '#f1c40f' : '#e74c3c',
-            backgroundColor: chartId === 'usdChart' ? 'rgba(241, 196, 15, 0.2)' : 'rgba(231, 76, 60, 0.2)',
+            label: currency,
+            data: dataValues,
+            borderColor: color.border,
+            backgroundColor: color.bg,
             fill: true,
             tension: 0.4,
-            borderWidth: 2
+            borderWidth: 2,
+            currentRate
           }]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: false,
-              title: { display: false },
-              ticks: { 
-                font: { 
-                  family: 'Calibri', 
-                  size: baseFontSize,
-                  weight: 'normal'
-                } 
-              },
-              grid: {
-                color: 'rgba(0, 0, 0, 0.05)',
-                drawBorder: false
-              }
-            },
-            x: {
-              title: { display: false },
-              ticks: {
-                maxRotation: 90,
-                minRotation: 90,
-                font: { 
-                  family: 'Calibri', 
-                  size: baseFontSize
-                },
-                autoSkip: false // Показываем все даты
-              },
-              grid: {
-                color: 'rgba(0, 0, 0, 0.05)',
-                drawOnChartArea: true, // Включаем вертикальные линии
-                drawTicks: true,
-                drawBorder: false
-              }
-            }
-          },
-          plugins: {
-            legend: {
-              position: 'top',
-              align: 'center',
-              onClick: null,
-              labels: {
-                generateLabels: function(chart) {
-                  return [{
-                    text: `${label} ${currentRate}`,
-                    fillStyle: 'rgba(0, 0, 0, 0)',
-                    font: { 
-                      family: 'Calibri', 
-                      size: window.innerWidth <= 480 ? 14 : 16,
-                      weight: 'bold'
-                    },
-                    datasetIndex: 0
-                  }];
-                },
-                boxWidth: 0,
-                padding: 10
-              }
-            },
-            tooltip: {
-              bodyFont: {
-                family: 'Calibri',
-                size: baseFontSize,
-                weight: 'normal'
-              },
-              titleFont: {
-                family: 'Calibri',
-                size: baseFontSize,
-                weight: 'bold'
-              }
-            }
-          },
-          animation: { 
-            duration: 1000, 
-            easing: 'easeInOutQuad' 
-          }
-        }
+        options
       });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    window.addEventListener('DOMContentLoaded', () => {
       fetchRates();
       setInterval(fetchRates, 300000);
       
-      window.addEventListener('resize', function() {
-        for (const chartId in myCharts) {
-          if (myCharts[chartId]) {
-            myCharts[chartId].update();
-          }
-        }
+      window.addEventListener('resize', () => {
+        Object.values(myCharts).forEach(chart => chart?.update());
       });
     });
   </script>
