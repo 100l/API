@@ -40,6 +40,8 @@
     }
     .captcha-container {
       margin-top: 20px;
+      min-width: 280px; /* Мінімальна ширина для reCAPTCHA */
+      min-height: 78px; /* Мінімальна висота для відображення */
     }
     .footer {
       margin-top: auto;
@@ -54,7 +56,11 @@
       body { font-size: 10px; padding: 10px; }
       .silhouette { width: 150px; height: 150px; }
       .content { max-width: 90%; padding: 10px; }
+      .captcha-container { min-width: 250px; min-height: 70px; }
       .footer { font-size: 9px; }
+    }
+    @media (max-width: 320px) {
+      .captcha-container { min-width: 220px; min-height: 65px; }
     }
   </style>
 </head>
@@ -83,7 +89,8 @@
           grecaptcha.render('captcha', {
             'sitekey': '6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV',
             'callback': onSubmit,
-            'theme': 'light'
+            'theme': 'light',
+            'size': 'normal' // Гарантуємо нормальний розмір
           });
         } catch (error) {
           console.error('Помилка завантаження reCAPTCHA:', error);
