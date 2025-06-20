@@ -6,218 +6,47 @@
   <title>Курс Гривні - Перевірка</title>
   <script src="https://www.google.com/recaptcha/api.js?render=explicit&hl=uk" async defer></script>
   <style>
-    @font-face {
-      font-family: 'Calibri';
-      src: local('Calibri'), local('Calibri Regular'), 
-           url('https://fonts.cdnfonts.com/css/calibri') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Calibri', Arial, sans-serif;
-    }
-    
-    body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #ecf0f1 100%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      text-align: center;
-    }
-    
-    .container {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .clock {
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 15px;
-      position: relative;
-      border: 8px solid #3498db;
-      border-radius: 50%;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    
-    .hand {
-      position: absolute;
-      bottom: 50%;
-      left: 50%;
-      transform-origin: 50% 100%;
-      border-radius: 5px;
-    }
-    
-    .hour-hand {
-      width: 6px;
-      height: 40px;
-      margin-left: -3px;
-      background: #2c3e50;
-    }
-    
-    .minute-hand {
-      width: 4px;
-      height: 60px;
-      margin-left: -2px;
-      background: #2c3e50;
-    }
-    
-    .second-hand {
-      width: 2px;
-      height: 70px;
-      margin-left: -1px;
-      background: #FFA500;
-    }
-    
-    .center-dot {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 12px;
-      height: 12px;
-      background: #2c3e50;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 10;
-    }
-    
-    .digital-timer {
-      font-size: 24px;
-      margin: 10px 0 15px;
-      color: #2c3e50;
-      padding: 5px;
-      letter-spacing: 1px;
-    }
-    
-    .captcha-title {
-      margin: 10px 0;
-      color: #2c3e50;
-      font-weight: normal;
-      font-size: 1.2rem;
-      line-height: 1.4;
-      padding: 0 10px;
-    }
-    
-    .captcha-container {
-      margin: 20px 0 15px;
-      min-width: 280px;
-      min-height: 78px;
-      display: flex;
-      justify-content: center;
-    }
-    
+    /* Ваши существующие стили остаются без изменений */
+    /* Добавьте только эти новые стили для счетчика */
     .stats-container {
       display: flex;
       justify-content: space-around;
       width: 100%;
       margin: 10px 0 25px;
     }
-    
     .stat-item {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin: 0 15px;
     }
-    
     .stat-icon {
       width: 24px;
       height: 24px;
       margin-bottom: 3px;
     }
-    
     .stat-value {
       font-size: 20px;
       font-weight: bold;
       color: #2c3e50;
     }
-    
     .stat-label {
       font-size: 11px;
       color: #7f8c8d;
       margin-top: 2px;
     }
-    
     .total-visitors {
       margin-top: 5px;
       font-size: 12px;
       color: #3498db;
       font-weight: bold;
     }
-    
-    .footer {
-      margin-top: 10px;
-      color: #7f8c8d;
-      font-size: 12px;
-      line-height: 1.4;
-    }
-    
-    @media (max-width: 480px) {
-      .clock {
-        width: 120px;
-        height: 120px;
-        border-width: 6px;
-      }
-      .hour-hand { height: 35px; }
-      .minute-hand { height: 50px; }
-      .second-hand { height: 60px; }
-      .digital-timer { font-size: 20px; }
-      .captcha-title {
-        font-size: 1rem;
-        padding: 0 5px;
-      }
-      .footer {
-        font-size: 11px;
-        padding: 0 10px;
-      }
-      .stat-icon {
-        width: 20px;
-        height: 20px;
-      }
-      .stat-value {
-        font-size: 18px;
-      }
-    }
-    
-    @media (max-width: 320px) {
-      .captcha-title {
-        font-size: 0.9rem;
-      }
-      .footer {
-        font-size: 10px;
-      }
-      .stat-item {
-        margin: 0 10px;
-      }
-    }
   </style>
 </head>
 <body>
+  <!-- Ваш существующий HTML -->
   <div class="container">
-    <div class="clock">
-      <div class="hand hour-hand"></div>
-      <div class="hand minute-hand"></div>
-      <div class="hand second-hand"></div>
-      <div class="center-dot"></div>
-    </div>
-    
-    <div class="digital-timer">00:00:00</div>
-    
-    <h2 class="captcha-title">Підтвердіть, що ви людина,<br>і пройдіть CAPTCHA</h2>
-    
-    <div class="captcha-container" id="captcha"></div>
+    <!-- Часы, таймер, CAPTCHA -->
     
     <div class="stats-container">
       <div class="stat-item">
@@ -231,7 +60,7 @@
         <div class="stat-label">Телефони</div>
       </div>
     </div>
-    <div class="total-visitors">Всього відвідувачів: <span id="total-count">0</span></div>
+    <div class="total-visitors">Всього перевірок: <span id="total-count">0</span></div>
     
     <div class="footer">
       © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
@@ -240,93 +69,65 @@
   </div>
 
   <script>
-    // Секундомір
-    let startTime = Date.now();
-    let timerInterval;
+    // Замените на ваш Gist ID
+    const GIST_ID = 'ВАШ_GIST_ID';
+    const GIST_FILE = 'stats.json';
     
-    // Визначаємо тип пристрою
+    // Определяем тип устройства
     function getDeviceType() {
       return /Mobi|Android/i.test(navigator.userAgent) ? 'mobile' : 'desktop';
     }
     
-    // Оновлюємо статистику
-    async function updateStats() {
+    // Получаем статистику
+    async function getStats() {
       try {
-        // Тут буде реальний запит до вашого бекенду
-        // Для прикладу використовуємо localStorage
-        const stats = JSON.parse(localStorage.getItem('deviceStats')) || { desktop: 0, mobile: 0 };
-        
-        document.getElementById('desktop-count').textContent = stats.desktop;
-        document.getElementById('mobile-count').textContent = stats.mobile;
-        document.getElementById('total-count').textContent = stats.desktop + stats.mobile;
+        const response = await fetch(`https://api.github.com/gists/${GIST_ID}`);
+        const gist = await response.json();
+        return JSON.parse(gist.files[GIST_FILE].content);
       } catch (e) {
-        console.error('Помилка оновлення статистики:', e);
+        console.error('Ошибка загрузки статистики:', e);
+        return { desktop: 0, mobile: 0 };
       }
     }
     
-    // Відправляємо дані про відвідувача
-    async function sendVisitData() {
+    // Обновляем статистику
+    async function updateStats() {
+      const stats = await getStats();
+      document.getElementById('desktop-count').textContent = stats.desktop;
+      document.getElementById('mobile-count').textContent = stats.mobile;
+      document.getElementById('total-count').textContent = stats.desktop + stats.mobile;
+    }
+    
+    // Отправляем данные (это упрощенный пример, для реального использования нужен токен)
+    async function incrementCounter() {
       const deviceType = getDeviceType();
       try {
-        // Тут має бути реальний запит до вашого API
-        // Для прикладу зберігаємо в localStorage
-        const stats = JSON.parse(localStorage.getItem('deviceStats')) || { desktop: 0, mobile: 0 };
+        const stats = await getStats();
         stats[deviceType]++;
-        localStorage.setItem('deviceStats', JSON.stringify(stats));
         
-        // Оновлюємо відображення
+        // В реальном проекте здесь нужно использовать GitHub API с токеном
+        console.log('Новые данные для отправки:', stats);
+        // Для реального использования нужно реализовать отправку через сервер
+        // или GitHub API с персональным токеном
+        
+        // После успешной отправки обновляем отображение
         updateStats();
       } catch (e) {
-        console.error('Помилка відправки даних:', e);
+        console.error('Ошибка обновления статистики:', e);
       }
     }
     
-    function updateTimer() {
-      const elapsedTime = Date.now() - startTime;
-      const seconds = Math.floor(elapsedTime / 1000) % 60;
-      const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
-      const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
-      
-      document.querySelector('.digital-timer').textContent = 
-        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
-      const secondDeg = seconds * 6;
-      const minuteDeg = minutes * 6 + seconds * 0.1;
-      const hourDeg = hours * 30 + minutes * 0.5;
-      
-      document.querySelector('.second-hand').style.transform = `rotate(${secondDeg}deg)`;
-      document.querySelector('.minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
-      document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
-    }
-    
-    function startTimer() {
-      startTime = Date.now();
-      timerInterval = setInterval(updateTimer, 1000);
-      updateTimer();
-    }
-    
+    // Ваши существующие функции
     function onSubmit(token) {
+      incrementCounter(); // Увеличиваем счетчик при успешной проверке
       clearInterval(timerInterval);
       window.location.href = 'main.html';
     }
     
-    function renderCaptcha() {
-      if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
-        grecaptcha.render('captcha', {
-          'sitekey': '6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV',
-          'callback': onSubmit,
-          'theme': 'light',
-          'size': 'normal'
-        });
-      } else {
-        setTimeout(renderCaptcha, 100);
-      }
-    }
-    
+    // Инициализация
     document.addEventListener('DOMContentLoaded', function() {
       startTimer();
       renderCaptcha();
-      sendVisitData();
       updateStats();
     });
   </script>
