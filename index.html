@@ -78,7 +78,7 @@
       width: 2px;
       height: 70px;
       margin-left: -1px;
-      background: #FFA500; /* Оранжевий колір */
+      background: #FFA500;
     }
     
     .center-dot {
@@ -118,8 +118,40 @@
       justify-content: center;
     }
     
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 10px;
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .stat-icon {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 5px;
+    }
+    
+    .stat-value {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: #7f8c8d;
+    }
+    
     .footer {
-      margin-top: 30px;
+      margin-top: 20px;
       color: #7f8c8d;
       font-size: 12px;
       line-height: 1.4;
@@ -142,6 +174,9 @@
       .footer {
         font-size: 11px;
         padding: 0 10px;
+      }
+      .stats-container {
+        padding: 10px;
       }
     }
     
@@ -170,6 +205,19 @@
     
     <div class="captcha-container" id="captcha"></div>
     
+    <div class="stats-container">
+      <div class="stat-item">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232ecc71'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/></svg>" class="stat-icon">
+        <div class="stat-value" id="human-count">0</div>
+        <div class="stat-label">Люди</div>
+      </div>
+      <div class="stat-item">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e74c3c'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.95 15.36l-1.41 1.41L12 13.41l-3.54 3.54-1.41-1.41L10.59 12 7.05 8.46l1.41-1.41L12 10.59l3.54-3.54 1.41 1.41L13.41 12l3.54 3.54z'/></svg>" class="stat-icon">
+        <div class="stat-value" id="bot-count">0</div>
+        <div class="stat-label">Боти</div>
+      </div>
+    </div>
+    
     <div class="footer">
       © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
       Тема: Інтеграція державних сервісів через API та хмарні технології
@@ -180,6 +228,10 @@
     // Секундомір
     let startTime = Date.now();
     let timerInterval;
+    
+    // Статистика
+    let humanCount = localStorage.getItem('humanCount') || 0;
+    let botCount = localStorage.getItem('botCount') || 0;
     
     function updateTimer() {
       const elapsedTime = Date.now() - startTime;
@@ -199,15 +251,30 @@
       document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
     }
     
+    function updateStats() {
+      document.getElementById('human-count').textContent = humanCount;
+      document.getElementById('bot-count').textContent = botCount;
+    }
+    
     function startTimer() {
       startTime = Date.now();
       timerInterval = setInterval(updateTimer, 1000);
       updateTimer();
+      updateStats();
     }
     
     function onSubmit(token) {
+      humanCount++;
+      localStorage.setItem('humanCount', humanCount);
+      updateStats();
       clearInterval(timerInterval);
       window.location.href = 'main.html';
+    }
+    
+    function handleBotDetection() {
+      botCount++;
+      localStorage.setItem('botCount', botCount);
+      updateStats();
     }
     
     function renderCaptcha() {
@@ -215,6 +282,8 @@
         grecaptcha.render('captcha', {
           'sitekey': '6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV',
           'callback': onSubmit,
+          'expired-callback': handleBotDetection,
+          'error-callback': handleBotDetection,
           'theme': 'light',
           'size': 'normal'
         });
