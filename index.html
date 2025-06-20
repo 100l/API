@@ -5,15 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Курс Гривні - Перевірка</title>
   <script src="https://www.google.com/recaptcha/api.js?render=explicit&hl=uk" async defer></script>
+  <!-- Підключення шрифту Calibri -->
   <style>
+    @font-face {
+      font-family: 'Calibri';
+      src: local('Calibri'), local('Calibri Regular'), 
+           url('https://fonts.cdnfonts.com/css/calibri') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+    
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Calibri', Arial, sans-serif;
     }
     
     body {
-      font-family: 'Arial', sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #ecf0f1 100%);
       min-height: 100vh;
       display: flex;
@@ -87,16 +96,16 @@
     
     .digital-timer {
       font-size: 24px;
-      font-family: 'Courier New', monospace;
       margin: 10px 0 20px;
       color: #2c3e50;
-      /* Видалено білий фон */
       padding: 5px;
+      letter-spacing: 1px;
     }
     
     h2 {
       margin: 10px 0;
       color: #2c3e50;
+      font-weight: normal;
     }
     
     .captcha-container {
@@ -137,7 +146,7 @@
     
     <div class="digital-timer">00:00:00</div>
     
-    <h2>Підтвердіть, що ви людина, і пройдіть CAPTCHA</h2>
+    <h2>Підтвердіть, що ви людина,<br>і пройдіть CAPTCHA</h2>
     
     <div class="captcha-container" id="captcha"></div>
     
