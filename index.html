@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Курс Гривні - Перевірка</title>
-  <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+  <!-- Додано параметр hl=uk для української мови -->
+  <script src="https://www.google.com/recaptcha/api.js?render=explicit&hl=uk" async defer></script>
   <style>
     * {
       margin: 0;
@@ -149,7 +150,7 @@
   </div>
 
   <script>
-    // Секундомер
+    // Секундомір
     let startTime = Date.now();
     let timerInterval;
     
@@ -159,11 +160,11 @@
       const minutes = Math.floor(elapsedTime / (1000 * 60)) % 60;
       const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
       
-      // Обновляем цифровой таймер
+      // Оновлюємо цифровий таймер
       document.querySelector('.digital-timer').textContent = 
         `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       
-      // Обновляем аналоговые часы (используем секунды как основу)
+      // Оновлюємо аналогові годинники
       const secondDeg = seconds * 6;
       const minuteDeg = minutes * 6 + seconds * 0.1;
       const hourDeg = hours * 30 + minutes * 0.5;
@@ -173,16 +174,16 @@
       document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
     }
     
-    // Запускаем секундомер при загрузке страницы
+    // Запускаємо секундомір при завантаженні сторінки
     function startTimer() {
       startTime = Date.now();
       timerInterval = setInterval(updateTimer, 1000);
-      updateTimer(); // Первое обновление сразу
+      updateTimer(); // Перше оновлення відразу
     }
     
-    // Обработка CAPTCHA
+    // Обробка CAPTCHA
     function onSubmit(token) {
-      clearInterval(timerInterval); // Останавливаем таймер при успешной проверке
+      clearInterval(timerInterval); // Зупиняємо таймер при успішній перевірці
       window.location.href = 'main.html';
     }
     
