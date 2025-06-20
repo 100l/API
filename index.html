@@ -3,73 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Курс Гривні в Реальному Часі - Перевірка</title>
+  <title>Курс Гривні - Перевірка</title>
   <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet>
   <style>
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Noto Serif', 'Times New Roman', Times, serif;
-      font-size: 14px;
+    * {
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Arial', sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #ecf0f1 100%);
-      color: #2c3e50;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 20px;
       text-align: center;
     }
-    .content {
+    
+    .container {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 400px;
-      padding: 20px;
     }
-    .clock-container {
+    
+    .clock {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 25px;
       position: relative;
-      width: 200px;
-      height: 200px;
-      margin-bottom: 25px;
-    }
-    .clock-face {
-      width: 100%;
-      height: 100%;
       border: 8px solid #3498db;
       border-radius: 50%;
-      position: relative;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-    .hand {
-      position: absolute;
-      bottom: 50%;
-      left: 50%;
-      transform-origin: 50% 100%;
-      background: #2c3e50;
-      border-radius: 5px;
-    }
-    .hour-hand {
-      width: 6px;
-      height: 60px;
-      margin-left: -3px;
-    }
-    .minute-hand {
-      width: 4px;
-      height: 80px;
-      margin-left: -2px;
-    }
-    .second-hand {
-      width: 2px;
-      height: 90px;
-      margin-left: -1px;
-      background: #e74c3c;
-    }
-    .hryvnia-icon {
+    
+    .hryvnia {
       position: absolute;
       top: 20px;
       right: 20px;
@@ -77,6 +52,39 @@
       font-weight: bold;
       color: #f1c40f;
     }
+    
+    .hand {
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform-origin: 50% 100%;
+      border-radius: 5px;
+    }
+    
+    .hour-hand {
+      width: 6px;
+      height: 50px;
+      margin-left: -3px;
+      background: #2c3e50;
+      animation: rotate-hour 43200s linear infinite;
+    }
+    
+    .minute-hand {
+      width: 4px;
+      height: 70px;
+      margin-left: -2px;
+      background: #2c3e50;
+      animation: rotate-minute 3600s linear infinite;
+    }
+    
+    .second-hand {
+      width: 2px;
+      height: 80px;
+      margin-left: -1px;
+      background: #e74c3c;
+      animation: rotate-second 60s linear infinite;
+    }
+    
     .center-dot {
       position: absolute;
       top: 50%;
@@ -88,100 +96,109 @@
       transform: translate(-50%, -50%);
       z-index: 10;
     }
+    
+    h2 {
+      margin: 20px 0;
+      color: #2c3e50;
+    }
+    
     .captcha-container {
-      margin-top: 20px;
+      margin: 20px 0;
       min-width: 280px;
       min-height: 78px;
+      display: flex;
+      justify-content: center;
     }
+    
     .footer {
-      margin-top: auto;
-      padding: 15px 0;
-      text-align: center;
+      margin-top: 30px;
       color: #7f8c8d;
       font-size: 12px;
-      width: 100%;
     }
-    /* Адаптивний дизайн */
+    
+    @keyframes rotate-hour {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes rotate-minute {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes rotate-second {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
     @media (max-width: 480px) {
-      body { font-size: 10px; padding: 10px; }
-      .clock-container { width: 150px; height: 150px; }
-      .clock-face { border-width: 6px; }
-      .hour-hand { height: 45px; width: 5px; margin-left: -2.5px; }
-      .minute-hand { height: 60px; }
-      .second-hand { height: 70px; }
-      .content { max-width: 90%; padding: 10px; }
-      .captcha-container { min-width: 250px; min-height: 70px; }
-      .footer { font-size: 9px; }
-    }
-    @media (max-width: 320px) {
-      .captcha-container { min-width: 220px; min-height: 65px; }
+      .clock {
+        width: 120px;
+        height: 120px;
+        border-width: 6px;
+      }
+      .hour-hand { height: 40px; }
+      .minute-hand { height: 55px; }
+      .second-hand { height: 65px; }
+      .hryvnia { font-size: 20px; }
     }
   </style>
 </head>
 <body>
-  <div class="content">
-    <div class="clock-container">
-      <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand minute-hand"></div>
-        <div class="hand second-hand"></div>
-        <div class="center-dot"></div>
-        <div class="hryvnia-icon">₴</div>
-      </div>
+  <div class="container">
+    <div class="clock">
+      <div class="hryvnia">₴</div>
+      <div class="hand hour-hand"></div>
+      <div class="hand minute-hand"></div>
+      <div class="hand second-hand"></div>
+      <div class="center-dot"></div>
     </div>
+    
     <h2>Підтвердіть, що ви людина, і пройдіть CAPTCHA</h2>
+    
     <div class="captcha-container" id="captcha"></div>
-  </div>
-  <div class="footer">
-    © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
-    Тема: Інтеграція державних сервісів через API та хмарні технології
+    
+    <div class="footer">
+      © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
+      Тема: Інтеграція державних сервісів через API та хмарні технології
+    </div>
   </div>
 
   <script>
-    // Анімація годинника
-    function updateClock() {
+    function onSubmit(token) {
+      window.location.href = 'main.html';
+    }
+
+    function renderCaptcha() {
+      if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
+        grecaptcha.render('captcha', {
+          'sitekey': '6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV',
+          'callback': onSubmit,
+          'theme': 'light',
+          'size': 'normal'
+        });
+      } else {
+        setTimeout(renderCaptcha, 100);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderCaptcha();
+      
+      // Устанавливаем начальное время для часов
       const now = new Date();
       const hours = now.getHours() % 12;
       const minutes = now.getMinutes();
       const seconds = now.getSeconds();
       
-      const hourHand = document.querySelector('.hour-hand');
-      const minuteHand = document.querySelector('.minute-hand');
-      const secondHand = document.querySelector('.second-hand');
-      
       const hourDeg = (hours * 30) + (minutes * 0.5);
       const minuteDeg = minutes * 6;
       const secondDeg = seconds * 6;
       
-      hourHand.style.transform = `rotate(${hourDeg}deg)`;
-      minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-      secondHand.style.transform = `rotate(${secondDeg}deg)`;
-    }
-    
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Ініціалізація reCAPTCHA
-    function onSubmit(token) {
-      window.location.href = 'main.html';
-    }
-
-    window.onload = function() {
-      const captchaDiv = document.getElementById('captcha');
-      if (captchaDiv) {
-        try {
-          grecaptcha.render('captcha', {
-            'sitekey': '6LcN_WYrAAAAABxTv51TRIWYa6VWZBn7ROfgbxRV',
-            'callback': onSubmit,
-            'theme': 'light',
-            'size': 'normal'
-          });
-        } catch (error) {
-          console.error('Помилка завантаження reCAPTCHA:', error);
-          captchaDiv.innerHTML = '<p>Не вдалося завантажити CAPTCHA. Спробуйте пізніше.</p>';
-        }
-      }
-    };
+      document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
+      document.querySelector('.minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
+      document.querySelector('.second-hand').style.transform = `rotate(${secondDeg}deg)`;
+    });
   </script>
 </body>
 </html>
