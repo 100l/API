@@ -44,15 +44,6 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
     
-    .hryvnia {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #f1c40f;
-    }
-    
     .hand {
       position: absolute;
       bottom: 50%;
@@ -66,7 +57,6 @@
       height: 50px;
       margin-left: -3px;
       background: #2c3e50;
-      animation: rotate-hour 43200s linear infinite;
     }
     
     .minute-hand {
@@ -74,7 +64,6 @@
       height: 70px;
       margin-left: -2px;
       background: #2c3e50;
-      animation: rotate-minute 3600s linear infinite;
     }
     
     .second-hand {
@@ -82,7 +71,6 @@
       height: 80px;
       margin-left: -1px;
       background: #e74c3c;
-      animation: rotate-second 60s linear infinite;
     }
     
     .center-dot {
@@ -116,21 +104,6 @@
       font-size: 12px;
     }
     
-    @keyframes rotate-hour {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    
-    @keyframes rotate-minute {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    
-    @keyframes rotate-second {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    
     @media (max-width: 480px) {
       .clock {
         width: 120px;
@@ -140,14 +113,12 @@
       .hour-hand { height: 40px; }
       .minute-hand { height: 55px; }
       .second-hand { height: 65px; }
-      .hryvnia { font-size: 20px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="clock">
-      <div class="hryvnia">₴</div>
       <div class="hand hour-hand"></div>
       <div class="hand minute-hand"></div>
       <div class="hand second-hand"></div>
@@ -165,6 +136,27 @@
   </div>
 
   <script>
+    // Функция для обновления времени на часах
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours() % 12;
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      
+      const hourDeg = (hours * 30) + (minutes * 0.5);
+      const minuteDeg = minutes * 6;
+      const secondDeg = seconds * 6;
+      
+      document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
+      document.querySelector('.minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
+      document.querySelector('.second-hand').style.transform = `rotate(${secondDeg}deg)`;
+    }
+
+    // Обновляем часы каждую секунду
+    setInterval(updateClock, 1000);
+    updateClock(); // Инициализация сразу
+
+    // Обработка CAPTCHA
     function onSubmit(token) {
       window.location.href = 'main.html';
     }
@@ -182,23 +174,7 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      renderCaptcha();
-      
-      // Устанавливаем начальное время для часов
-      const now = new Date();
-      const hours = now.getHours() % 12;
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
-      
-      const hourDeg = (hours * 30) + (minutes * 0.5);
-      const minuteDeg = minutes * 6;
-      const secondDeg = seconds * 6;
-      
-      document.querySelector('.hour-hand').style.transform = `rotate(${hourDeg}deg)`;
-      document.querySelector('.minute-hand').style.transform = `rotate(${minuteDeg}deg)`;
-      document.querySelector('.second-hand').style.transform = `rotate(${secondDeg}deg)`;
-    });
+    document.addEventListener('DOMContentLoaded', renderCaptcha);
   </script>
 </body>
 </html>
