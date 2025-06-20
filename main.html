@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Курс Гривні в Реальному Часі</title>
+  <title>Курс НБУ в Реальному Часі</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     @font-face {
@@ -72,6 +72,7 @@
       max-width: 1200px;
       width: 100%;
       margin: 0 auto;
+      flex: 1;
     }
     .chart-section {
       flex: 1;
@@ -96,13 +97,13 @@
       height: 100% !important;
     }
     .footer {
-      margin-top: 10px;
-      padding: 10px 0;
+      margin-top: auto;
+      padding: 15px 0 5px;
       text-align: center;
       color: #7f8c8d;
       font-size: 14px;
       width: 100%;
-      line-height: 1.4;
+      line-height: 1.3;
     }
     @media (max-width: 1024px) {
       .currency-container { 
@@ -137,13 +138,12 @@
         font-size: 14px; 
         padding: 10px 20px; 
       }
-      .footer { 
-        font-size: 12px;
-        margin-top: 5px;
-        padding: 5px 0;
-      }
       .update-info { 
         font-size: 12px; 
+      }
+      .footer {
+        font-size: 12px;
+        padding: 10px 0 5px;
       }
     }
     @media (max-width: 480px) {
@@ -161,7 +161,6 @@
       }
       .footer { 
         font-size: 11px;
-        margin-top: 0;
       }
       .update-info { 
         font-size: 11px; 
@@ -170,7 +169,7 @@
   </style>
 </head>
 <body>
-  <h2>КУРС ГРИВНІ В РЕАЛЬНОМУ ЧАСІ</h2>
+  <h2>КУРС НБУ В РЕАЛЬНОМУ ЧАСІ</h2>
   <div class="controls">
     <button onclick="fetchRates()">Оновити</button>
     <div class="update-info" id="updateTime"></div>
@@ -189,7 +188,7 @@
   </div>
   <div class="footer">
     © 2025 ВИПУСКНА КВАЛІФІКАЦІЙНА РОБОТА<br>
-    Тема: Інтеграція державних сервісів через API та хмарні технології
+    Інтеграція державних сервісів через API та хмарні технології
   </div>
 
   <script>
@@ -225,7 +224,9 @@
     async function fetchMonthlyRates() {
       const monthData = [];
       const today = new Date();
-      for (let i = 0; i < 30; i++) {
+      
+      // Собираем данные только для каждого второго дня (чтобы уменьшить количество точек)
+      for (let i = 0; i < 30; i += 2) {
         const date = new Date(today);
         date.setDate(today.getDate() - i);
         const dateStr = date.toISOString().split('T')[0].replace(/-/g, '');
@@ -264,6 +265,8 @@
         myCharts[chartId].destroy();
       }
 
+      const baseFontSize = window.innerWidth <= 480 ? 12 : 14;
+      
       myCharts[chartId] = new Chart(ctx, {
         type: 'line',
         data: {
@@ -288,9 +291,13 @@
               ticks: { 
                 font: { 
                   family: 'Calibri', 
-                  size: window.innerWidth <= 480 ? 12 : 14,
-                  weight: 'normal' // Обычный шрифт для цифр на оси Y
+                  size: baseFontSize,
+                  weight: 'normal'
                 } 
+              },
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)',
+                drawBorder: false
               }
             },
             x: {
@@ -300,10 +307,15 @@
                 minRotation: 90,
                 font: { 
                   family: 'Calibri', 
-                  size: window.innerWidth <= 480 ? 10 : 12 
+                  size: baseFontSize
                 },
-                autoSkip: true,
-                maxTicksLimit: window.innerWidth <= 480 ? 8 : 12
+                autoSkip: false // Показываем все даты
+              },
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)',
+                drawOnChartArea: true, // Включаем вертикальные линии
+                drawTicks: true,
+                drawBorder: false
               }
             }
           },
@@ -319,8 +331,8 @@
                     fillStyle: 'rgba(0, 0, 0, 0)',
                     font: { 
                       family: 'Calibri', 
-                      size: window.innerWidth <= 480 ? 16 : 18,
-                      weight: 'bold' // Жирный только для USD/EUR
+                      size: window.innerWidth <= 480 ? 14 : 16,
+                      weight: 'bold'
                     },
                     datasetIndex: 0
                   }];
@@ -332,13 +344,13 @@
             tooltip: {
               bodyFont: {
                 family: 'Calibri',
-                size: 14,
+                size: baseFontSize,
                 weight: 'normal'
               },
               titleFont: {
                 family: 'Calibri',
-                size: 16,
-                weight: 'normal'
+                size: baseFontSize,
+                weight: 'bold'
               }
             }
           },
